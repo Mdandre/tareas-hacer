@@ -1,4 +1,4 @@
-const { guardarDB } = require('./helpers/gardarArchivo');
+const { guardarDB, leerDb } = require('./helpers/gardarArchivo');
 const { inquirerMenu,
     pausa,
     leerInput,
@@ -11,6 +11,12 @@ require('colors');
 const main = async () => {
     let opt = '';
     const tareas = new Tareas();
+    const tareasDB = leerDb();
+    if (tareasDB) {//cargar tareas
+        tareas.cargarTareasFromArray(tareasDB);
+    }
+
+
 
     do {
         //imprimir el menú
@@ -23,7 +29,13 @@ const main = async () => {
                 tareas.crearTarea(descripcion);
                 break;
             case '2':
-                console.log(tareas.listadoArr);
+                tareas.listadoCompleto();
+                break;
+            case '3':
+                tareas.listarPendientesComletadas(true);
+                break;
+            case '4':
+                tareas.listarPendientesComletadas(false);
                 break;
         }
 
@@ -34,7 +46,7 @@ const main = async () => {
 
 
 
-    pausa();
+    //   pausa();
 
 }
 main();
